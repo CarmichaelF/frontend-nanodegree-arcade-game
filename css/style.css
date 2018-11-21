@@ -25,6 +25,7 @@ body {
 }
 
 .scoreboard{
+    color: #16a085;
     display: flex;
     justify-content: space-between
 }

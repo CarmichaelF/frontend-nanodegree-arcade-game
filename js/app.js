@@ -24,7 +24,14 @@ class Enemy extends Root {
             (player.y + heightLimit > this.y) &&
             (player.y < this.y + heightLimit)) {
             player.y = 405;
-
+            if(player.life > 0){
+                player.life--;
+            }
+            else{
+                gameOver();
+            }
+            
+            
         }
     }
 
@@ -53,14 +60,23 @@ class Player extends Root {
         super(x, y, sprite);
         this.moveUpDown = 85.5;
         this.moveLeftRight = 101;
+        this.life = 3;
+        this.level = 1;
     }
 
     update() {
+        let life = document.getElementById("life");
+        let level = document.getElementById("level");
+        life.innerHTML = this.life;
+        level.innerHTML = this.level;
         if (this.y === -22.5) {
             this.y = 405;
             this.level++;
             if(this.level < 10){
                 difficult += 50;
+                console.log(this.life);
+                console.log(this.life);
+                life.innerHTML = this.life;
             }
         }
     }
