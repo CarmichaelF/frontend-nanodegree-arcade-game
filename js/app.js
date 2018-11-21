@@ -13,19 +13,19 @@ class Root {
 class Enemy extends Root {
     constructor(x, y, sprite) {
         super(x, y, sprite);
-        this.speed = Math.random() * 1000;
+        this.difficult = 100;
+        this.speed = (Math.random() * this.difficult) + this.difficult;
     }
     collision() {
-        let width = 80,
-            height = 60;
-        if ((player.x + width > this.x) &&
-            (player.x < this.x + width) &&
-            (player.y + height > this.y) &&
-            (player.y < this.y + height)) {
+        let widthLimit = 80,
+            heightLimit = 60;
+        if ((player.x + widthLimit > this.x) &&
+            (player.x < this.x + widthLimit) &&
+            (player.y + heightLimit > this.y) &&
+            (player.y < this.y + heightLimit)) {
             player.y = 405;
         }
     }
-
 
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
@@ -37,7 +37,7 @@ class Enemy extends Root {
         this.x += this.speed * dt;
         if (this.x > ctx.canvas.width) {
             this.x = -101;
-            this.speed = Math.random() * 10 + 100;
+            this.speed = (Math.random() * this.difficult) + this.difficult;
         }
     }
 }
@@ -47,13 +47,16 @@ class Enemy extends Root {
 // a handleInput() method.
 
 class Player extends Root {
+
     constructor(x, y, sprite) {
         super(x, y, sprite);
+        this.moveUpDown = 85.5;
+        this.moveLeftRight = 101;
     }
 
     update() {
-        if (this.y === -51) {
-            this.y = 435;
+        if (this.y === -22.5) {
+            this.y = 405;
         }
     }
 
@@ -61,20 +64,21 @@ class Player extends Root {
         switch (key) {
             case 'left':
                 if (this.x > 0) {
-                    this.x -= 101;
+                    this.x -= this.moveLeftRight;
                 }
                 break;
             case 'up':
-                this.y -= 85.5;
+                this.y -= this.moveUpDown;
+                console.log(this.y);
                 break;
             case 'right':
                 if (this.x < 404) {
-                    this.x += 101;
+                    this.x += this.moveLeftRight;
                 }
                 break;
             case 'down':
                 if (this.y < 404) {
-                    this.y += 85.5;
+                    this.y += this.moveUpDown;
                     break;
                 }
         }
@@ -86,7 +90,7 @@ class Player extends Root {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-let player = new Player(202 , 405, 'images/char-boy.png');
+let player = new Player(202, 405, 'images/char-boy.png');
 let allEnemies = [new Enemy(-110, 60, 'images/enemy-bug.png'),
     new Enemy(-101, 140, 'images/enemy-bug.png'),
     new Enemy(-201, 220, 'images/enemy-bug.png'),
