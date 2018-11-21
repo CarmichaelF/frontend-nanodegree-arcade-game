@@ -34,36 +34,32 @@ class Enemy extends Root {
 // a handleInput() method.
 
 class Player extends Root {
-    constructor(x, y, sprite, speed) {
+    constructor(x, y, sprite) {
         super(x, y, sprite);
-        this.speed = speed;
     }
 
-    update(dt) {
-        // You should multiply any movement by the dt parameter
-        // which will ensure the game runs at the same speed for
-        // all computers.
-        /*this.x += this.speed * dt;
-        if (this.x > ctx.canvas.width) {
-            this.x = -101;
-        }
-        */
+    update(move) {
+        
     }
 
-    /*handleInput(key) {
+    handleInput(key) {
         switch (key) {
             case 'left':
-            
+                this.x -= 101;
                 break;
             case 'up':
+                this.y -= 91;
                 break;
             case 'right':
+                this.x += 101;
                 break;
             case 'down':
+                this.y += 91;
                 break;
         }
     }
-    */
+
+
     // Draw the enemy on the screen, required method for game
 }
 
@@ -71,7 +67,7 @@ class Player extends Root {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-let player = new Player(202, 404, 'images/char-boy.png', 2);
+let player = new Player(202, 404, 'images/char-boy.png');
 let allEnemies = [new Enemy(-110, 60, 'images/enemy-bug.png'),
     new Enemy(-101, 140, 'images/enemy-bug.png'),
     new Enemy(-201, 220, 'images/enemy-bug.png'),
