@@ -1,3 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:500');
 body {
     text-align: center;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+.firstDiv{
+    text-align: left;
+    margin: 0 auto;
+    margin-bottom: -40px;
+    width: 505px;
+}
+
+.secondDiv{
+    text-align: left;
+    margin: 0 auto;
+    margin-top: -15px;
+    width: 505px;
+}
+
+.scoreboard{
+    display: flex;
+    justify-content: space-between
+}
+
+.scoreboard li{
+    list-style: none;
+    margin-left: 0;
 }
