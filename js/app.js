@@ -1,3 +1,4 @@
+let difficult = 50;
 class Root {
     constructor(x, y, sprite) {
         this.x = x;
@@ -13,8 +14,7 @@ class Root {
 class Enemy extends Root {
     constructor(x, y, sprite) {
         super(x, y, sprite);
-        this.difficult = 100;
-        this.speed = (Math.random() * this.difficult) + this.difficult;
+        this.speed = (Math.random() * difficult) + difficult;
     }
     collision() {
         let widthLimit = 80,
@@ -24,6 +24,7 @@ class Enemy extends Root {
             (player.y + heightLimit > this.y) &&
             (player.y < this.y + heightLimit)) {
             player.y = 405;
+
         }
     }
 
@@ -37,7 +38,7 @@ class Enemy extends Root {
         this.x += this.speed * dt;
         if (this.x > ctx.canvas.width) {
             this.x = -101;
-            this.speed = (Math.random() * this.difficult) + this.difficult;
+            this.speed = (Math.random() * difficult) + difficult;
         }
     }
 }
@@ -57,6 +58,10 @@ class Player extends Root {
     update() {
         if (this.y === -22.5) {
             this.y = 405;
+            this.level++;
+            if(this.level < 10){
+                difficult += 50;
+            }
         }
     }
 
@@ -69,7 +74,6 @@ class Player extends Root {
                 break;
             case 'up':
                 this.y -= this.moveUpDown;
-                console.log(this.y);
                 break;
             case 'right':
                 if (this.x < 404) {
