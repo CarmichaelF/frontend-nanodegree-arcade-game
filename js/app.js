@@ -38,24 +38,33 @@ class Player extends Root {
         super(x, y, sprite);
     }
 
-    update(move) {
-        
+    update() {
+        if (this.y == -51) {
+            this.y = 404;
+        }
     }
 
     handleInput(key) {
         switch (key) {
             case 'left':
-                this.x -= 101;
+                if (this.x > 0) {
+                    this.x -= 101;
+                }
                 break;
             case 'up':
                 this.y -= 91;
                 break;
             case 'right':
-                this.x += 101;
+                if (this.x < 404) {
+                    this.x += 101;
+                }
                 break;
             case 'down':
-                this.y += 91;
-                break;
+                if (this.y < 404) {
+                    console.log(this.y);
+                    this.y += 91;
+                    break;
+                }
         }
     }
 
