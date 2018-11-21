@@ -12,9 +12,9 @@ class Root {
 }
 
 class Enemy extends Root {
-    constructor(x, y, sprite, speed) {
+    constructor(x, y, sprite) {
         super(x, y, sprite);
-        this.speed = speed;
+        this.speed = Math.random() * 1000;
     }
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
@@ -25,6 +25,7 @@ class Enemy extends Root {
         this.x += this.speed * dt;
         if(this.x > ctx.canvas.width){
             this.x = -101;
+            this.speed = Math.random() * 1000;
         }
     }
     // Draw the enemy on the screen, required method for game
@@ -46,6 +47,9 @@ class Player extends Root {
         // which will ensure the game runs at the same speed for
         // all computers.
         this.x += this.speed * dt;
+        if(this.x > ctx.canvas.width){
+            this.x = -101;
+        }
     }
     // Draw the enemy on the screen, required method for game
 }
@@ -54,12 +58,13 @@ class Player extends Root {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-let allEnemies = [new Enemy(80, 10, 'images/enemy-bug.png', 100),
-    new Enemy(70, 200, 'images/enemy-bug.png', 200),
-    new Enemy(80, 100, 'images/enemy-bug.png', 300)
-];
-
-let player = new Player(10, 10, 'images/char-boy.png',20);
+let player = new Player(100, 100, 'images/char-boy.png', 2);
+let allEnemies = [new Enemy(-110, 60, 'images/enemy-bug.png'),
+new Enemy(-101, 140, 'images/enemy-bug.png'),
+new Enemy(-201, 220, 'images/enemy-bug.png'),
+new Enemy(-301, 60, 'images/enemy-bug.png'),
+new Enemy(-401, 140, 'images/enemy-bug.png'),
+new Enemy(-501, 220, 'images/enemy-bug.png')];
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
