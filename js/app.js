@@ -15,16 +15,29 @@ class Enemy extends Root {
         super(x, y, sprite);
         this.speed = Math.random() * 1000;
     }
+    collision() {
+        let width = 80,
+            height = 60;
+        if ((player.x + width > this.x) &&
+            (player.x < this.x + width) &&
+            (player.y + height > this.y) &&
+            (player.y < this.y + height)) {
+            player.y = 405;
+        }
+    }
+
+
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
     update(dt) {
         // You should multiply any movement by the dt parameter
         // which will ensure the game runs at the same speed for
         // all computers.
+        this.collision();
         this.x += this.speed * dt;
         if (this.x > ctx.canvas.width) {
             this.x = -101;
-            this.speed = Math.random() * 400 + 100;
+            this.speed = Math.random() * 10 + 100;
         }
     }
 }
@@ -39,8 +52,8 @@ class Player extends Root {
     }
 
     update() {
-        if (this.y == -51) {
-            this.y = 404;
+        if (this.y === -51) {
+            this.y = 435;
         }
     }
 
@@ -52,7 +65,7 @@ class Player extends Root {
                 }
                 break;
             case 'up':
-                this.y -= 91;
+                this.y -= 85.5;
                 break;
             case 'right':
                 if (this.x < 404) {
@@ -61,14 +74,11 @@ class Player extends Root {
                 break;
             case 'down':
                 if (this.y < 404) {
-                    console.log(this.y);
-                    this.y += 91;
+                    this.y += 85.5;
                     break;
                 }
         }
     }
-
-
     // Draw the enemy on the screen, required method for game
 }
 
@@ -76,7 +86,7 @@ class Player extends Root {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-let player = new Player(202, 404, 'images/char-boy.png');
+let player = new Player(202 , 405, 'images/char-boy.png');
 let allEnemies = [new Enemy(-110, 60, 'images/enemy-bug.png'),
     new Enemy(-101, 140, 'images/enemy-bug.png'),
     new Enemy(-201, 220, 'images/enemy-bug.png'),
