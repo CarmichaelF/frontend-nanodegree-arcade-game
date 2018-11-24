@@ -1,5 +1,6 @@
-let difficult = 80;
-let yEnemy = 60;
+let difficult = 80,
+    yEnemy = 60,
+    lessOne = false;
 class Root {
     constructor(x, y, sprite) {
         this.x = x;
@@ -15,7 +16,7 @@ class Root {
 class Enemy extends Root {
     constructor(x, y, sprite) {
         super(x, y, sprite);
-        this.speed = Math.random() * (difficult - difficult/2) + difficult/2;
+        this.speed = Math.random() * (difficult - difficult / 2) + difficult / 2;
     }
     collision() {
         let widthLimit = 80,
@@ -25,10 +26,15 @@ class Enemy extends Root {
             (player.y + heightLimit > this.y) &&
             (player.y < this.y + heightLimit)) {
             if (player.life > 0) {
-                player.decreaseLevel();
+                player.y = 405;
                 player.life--;
+                lessOne = true;
                 life.innerHTML = this.life;
             } else {
+                allEnemies.map((enemy) => {
+                    enemy.speed = 0
+                });
+                player.stop = true;
                 $('#myModal').modal('show');
             }
         }
@@ -43,8 +49,12 @@ class Enemy extends Root {
         this.collision();
         this.x += this.speed * dt;
         if (this.x > ctx.canvas.width) {
+            if (lessOne === true) {
+                player.decreaseLevel();
+                lessOne = false;
+            }
             this.x = -101;
-            this.speed = Math.random() * (difficult - difficult/2) + difficult/2;
+            this.speed = Math.random() * (difficult - difficult / 2) + difficult / 2;
         }
     }
 }
@@ -57,12 +67,7 @@ function resetLevels() {
     player = new Player(202, 405, 'images/char-boy.png');
     difficult = 80;
     allEnemies = inicializeEnemies();
-}
-
-function close() {
-    document.getElementById('close').addEventListener('click', function () {
-        window.close('this');
-    }, false);
+    player.stop = false;
 }
 
 class Player extends Root {
@@ -72,6 +77,7 @@ class Player extends Root {
         this.moveLeftRight = 101;
         this.life = 3;
         this.level = 1;
+        this.stop = false;
     }
 
     update() {
@@ -102,7 +108,6 @@ class Player extends Root {
     }
 
     decreaseLevel() {
-        this.y = 405;
         if (this.level > 1) {
             difficult -= 100;
             allEnemies.pop();
@@ -111,25 +116,28 @@ class Player extends Root {
     }
 
     handleInput(key) {
-        switch (key) {
-            case 'left':
-                if (this.x > 0) {
-                    this.x -= this.moveLeftRight;
-                }
-                break;
-            case 'up':
-                this.y -= this.moveUpDown;
-                break;
-            case 'right':
-                if (this.x < 404) {
-                    this.x += this.moveLeftRight;
-                }
-                break;
-            case 'down':
-                if (this.y < 404) {
-                    this.y += this.moveUpDown;
+        if (this.stop === false) {
+            switch (key) {
+                case 'left':
+                    if (this.x > 0) {
+                        this.x -= this.moveLeftRight;
+                    }
                     break;
-                }
+                case 'up':
+                    this.y -= this.moveUpDown;
+                    break;
+                case 'right':
+                    if (this.x < 404) {
+                        this.x += this.moveLeftRight;
+                    }
+                    break;
+                case 'down':
+                    if (this.y < 404) {
+                        this.y += this.moveUpDown;
+
+                    }
+                    break;
+            }
         }
     }
     // Draw the enemy on the screen, required method for game
