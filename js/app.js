@@ -1,4 +1,5 @@
-let difficult = 50;
+let difficult = 80;
+let yEnemy = 60;
 class Root {
     constructor(x, y, sprite) {
         this.x = x;
@@ -14,7 +15,7 @@ class Root {
 class Enemy extends Root {
     constructor(x, y, sprite) {
         super(x, y, sprite);
-        this.speed = (Math.random() * difficult) + difficult;
+        this.speed = Math.random() * (difficult - difficult/2) + difficult/2;
     }
     collision() {
         let widthLimit = 80,
@@ -23,15 +24,13 @@ class Enemy extends Root {
             (player.x < this.x + widthLimit) &&
             (player.y + heightLimit > this.y) &&
             (player.y < this.y + heightLimit)) {
-            player.y = 405;
-            if(player.life > 0){
+            if (player.life > 0) {
+                player.decreaseLevel();
                 player.life--;
+                life.innerHTML = this.life;
+            } else {
+                $('#myModal').modal('show');
             }
-            else{
-                gameOver();
-            }
-            
-            
         }
     }
 
@@ -45,7 +44,7 @@ class Enemy extends Root {
         this.x += this.speed * dt;
         if (this.x > ctx.canvas.width) {
             this.x = -101;
-            this.speed = (Math.random() * difficult) + difficult;
+            this.speed = Math.random() * (difficult - difficult/2) + difficult/2;
         }
     }
 }
@@ -54,8 +53,19 @@ class Enemy extends Root {
 // This class requires an update(), render() and
 // a handleInput() method.
 
-class Player extends Root {
+function resetLevels() {
+    player = new Player(202, 405, 'images/char-boy.png');
+    difficult = 80;
+    allEnemies = inicializeEnemies();
+}
 
+function close() {
+    document.getElementById('close').addEventListener('click', function () {
+        window.close('this');
+    }, false);
+}
+
+class Player extends Root {
     constructor(x, y, sprite) {
         super(x, y, sprite);
         this.moveUpDown = 85.5;
@@ -70,14 +80,33 @@ class Player extends Root {
         life.innerHTML = this.life;
         level.innerHTML = this.level;
         if (this.y === -22.5) {
-            this.y = 405;
-            this.level++;
-            if(this.level < 10){
-                difficult += 50;
-                console.log(this.life);
-                console.log(this.life);
-                life.innerHTML = this.life;
+            this.increaseLevel();
+        }
+    }
+
+    increaseLevel() {
+        this.y = 405;
+        this.level++;
+        if (this.level < 5) {
+            difficult += difficult;
+            life.innerHTML = this.life;
+            allEnemies.push(new Enemy(-110, yEnemy, 'images/enemy-bug.png'));
+            yEnemy += 80;
+            if (yEnemy === 220) {
+                yEnemy = 60;
             }
+        } else {
+            alert("Você passou todos os 5 níveis, parabéns!");
+            resetLevels();
+        }
+    }
+
+    decreaseLevel() {
+        this.y = 405;
+        if (this.level > 1) {
+            difficult -= 100;
+            allEnemies.pop();
+            this.level--;
         }
     }
 
@@ -110,14 +139,15 @@ class Player extends Root {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
+function inicializeEnemies() {
+    return [new Enemy(-110, 60, 'images/enemy-bug.png'),
+        new Enemy(-101, 140, 'images/enemy-bug.png'),
+        new Enemy(-201, 220, 'images/enemy-bug.png')
+    ];
+}
+
 let player = new Player(202, 405, 'images/char-boy.png');
-let allEnemies = [new Enemy(-110, 60, 'images/enemy-bug.png'),
-    new Enemy(-101, 140, 'images/enemy-bug.png'),
-    new Enemy(-201, 220, 'images/enemy-bug.png'),
-    new Enemy(-301, 60, 'images/enemy-bug.png'),
-    new Enemy(-401, 140, 'images/enemy-bug.png'),
-    new Enemy(-501, 220, 'images/enemy-bug.png')
-];
+let allEnemies = inicializeEnemies();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -126,8 +156,9 @@ document.addEventListener('keyup', function (e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
+
 });

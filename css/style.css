@@ -34,3 +34,7 @@ body {
     list-style: none;
     margin-left: 0;
 }
+
+.modal > *{
+    font-family: 'Courier New', Courier, monospace;
+}
