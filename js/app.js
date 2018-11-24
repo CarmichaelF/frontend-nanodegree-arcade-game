@@ -1,6 +1,12 @@
+/*
+difficulty - Variable used to set the difficulty of the game, setting the speed of enemys.
+yEnemy - Variable used to set the position Y of a new enemy based on the level.
+lessOne - Variable used to define when an enemy will disappear based on the "collision method".
+*/
 let difficult = 80,
     yEnemy = 60,
     lessOne = false;
+//Root class used to build Player and Enemy.
 class Root {
     constructor(x, y, sprite) {
         this.x = x;
@@ -13,11 +19,13 @@ class Root {
     }
 }
 
+//Enemy class used to instantiate new enemys.
 class Enemy extends Root {
     constructor(x, y, sprite) {
         super(x, y, sprite);
-        this.speed = Math.random() * (difficult - difficult / 2) + difficult / 2;
+        this.speed = Math.random() * (difficulty - difficulty / 2) + difficulty / 2;
     }
+    //Method used to verify if there was collision.
     collision() {
         let widthLimit = 80,
             heightLimit = 60;
@@ -40,12 +48,9 @@ class Enemy extends Root {
         }
     }
 
-    // Update the enemy's position, required method for game
-    // Parameter: dt, a time delta between ticks
+    // Update the enemy's position, required method for game.
+    // Parameter: dt, a time delta between ticks.
     update(dt) {
-        // You should multiply any movement by the dt parameter
-        // which will ensure the game runs at the same speed for
-        // all computers.
         this.collision();
         this.x += this.speed * dt;
         if (this.x > ctx.canvas.width) {
@@ -54,22 +59,20 @@ class Enemy extends Root {
                 lessOne = false;
             }
             this.x = -101;
-            this.speed = Math.random() * (difficult - difficult / 2) + difficult / 2;
+            this.speed = Math.random() * (difficulty - difficulty / 2) + difficulty / 2;
         }
     }
 }
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
+//Function used to reset the levels.
 function resetLevels() {
     player = new Player(202, 405, 'images/char-boy.png');
-    difficult = 80;
+    difficulty = 80;
     allEnemies = inicializeEnemies();
     player.stop = false;
 }
 
+//Player Class, used to instantiate new enemys.
 class Player extends Root {
     constructor(x, y, sprite) {
         super(x, y, sprite);
@@ -79,7 +82,7 @@ class Player extends Root {
         this.level = 1;
         this.stop = false;
     }
-
+    //Update the enemy's position, required method for game.
     update() {
         let life = document.getElementById("life");
         let level = document.getElementById("level");
@@ -89,12 +92,12 @@ class Player extends Root {
             this.increaseLevel();
         }
     }
-
+    //Increases the game level.
     increaseLevel() {
         this.y = 405;
         this.level++;
         if (this.level < 5) {
-            difficult += difficult;
+            difficulty += difficulty;
             life.innerHTML = this.life;
             allEnemies.push(new Enemy(-110, yEnemy, 'images/enemy-bug.png'));
             yEnemy += 80;
@@ -106,15 +109,15 @@ class Player extends Root {
             resetLevels();
         }
     }
-
+    //Decreases the game level.
     decreaseLevel() {
         if (this.level > 1) {
-            difficult -= 100;
+            difficulty -= 100;
             allEnemies.pop();
             this.level--;
         }
     }
-
+    //Used to "catch" the key pressed.
     handleInput(key) {
         if (this.stop === false) {
             switch (key) {
@@ -140,13 +143,10 @@ class Player extends Root {
             }
         }
     }
-    // Draw the enemy on the screen, required method for game
 }
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
 
+//Function used to "reset" enemys.
 function inicializeEnemies() {
     return [new Enemy(-110, 60, 'images/enemy-bug.png'),
         new Enemy(-101, 140, 'images/enemy-bug.png'),
@@ -157,8 +157,7 @@ function inicializeEnemies() {
 let player = new Player(202, 405, 'images/char-boy.png');
 let allEnemies = inicializeEnemies();
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// This listens for key presses and sends the keys to Player.handleInput() method.
 document.addEventListener('keyup', function (e) {
     var allowedKeys = {
         37: 'left',
