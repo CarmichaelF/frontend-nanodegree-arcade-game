@@ -5,7 +5,8 @@ Udacity arcade game, made with HTML, CSS and Javascript.
 ## Table of Contents
 
 - [Play](#1)
-- [Usage](#2)
+
+- [Clone](#2)
 
 ## 1. Wanna play this game?
 
@@ -25,4 +26,10 @@ Have fun!
 
 2. Online verson.
 
+<<<<<<< HEAD
 https://carmichaelf.github.io/frontend-nanodegree-arcade-game/
+||||||| merged common ancestors
+git clone https://github.com/CarmichaelF/frontend-nanodegree-arcade-game.git
+=======
+git clone https://github.com/CarmichaelF/frontend-nanodegree-arcade-game.git
+>>>>>>> 47bbd642280b92b1102c36517b6fd15f87587721
