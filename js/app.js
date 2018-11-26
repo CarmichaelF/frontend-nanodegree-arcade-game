@@ -3,7 +3,7 @@ difficulty - Variable used to set the difficulty of the game, setting the speed 
 yEnemy - Variable used to set the position Y of a new enemy based on the level.
 lessOne - Variable used to define when an enemy will disappear based on the "collision method".
 */
-let difficult = 80,
+let difficulty = 80,
     yEnemy = 60,
     lessOne = false;
 //Root class used to build Player and Enemy.
