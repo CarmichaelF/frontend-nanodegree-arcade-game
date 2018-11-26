@@ -5,7 +5,7 @@ Udacity arcade game, made with HTML, CSS and Javascript.
 ## Table of Contents
 
 - [Play](#1)
-- [Clone](2)
+- [Clone](#2)
 
 ## 1. Wanna play this game?
 
