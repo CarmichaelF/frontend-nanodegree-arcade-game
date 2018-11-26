@@ -22,7 +22,7 @@ class Root {
 //Enemy class used to instantiate new enemys.
 class Enemy extends Root {
     constructor(x, y, sprite) {
-        super(x, y, sprite = 'images/enemy-bug.png');
+        super(x, y, sprite);
         this.speed = Math.random() * (difficulty - difficulty / 2) + difficulty / 2;
     }
     //Method used to verify if there was collision.
@@ -148,9 +148,9 @@ class Player extends Root {
 
 //Function used to "reset" enemys.
 function inicializeEnemies() {
-    return [new Enemy(-110, 60),
-        new Enemy(-101, 140),
-        new Enemy(-201, 220)
+    return [new Enemy(-110, 60, 'images/enemy-bug.png'),
+        new Enemy(-101, 140, 'images/enemy-bug.png'),
+        new Enemy(-201, 220, 'images/enemy-bug.png')
     ];
 }
 
